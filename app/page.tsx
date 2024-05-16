@@ -1,36 +1,32 @@
-"use client";
-import { useAppDispatch, useAppSelector } from "./hooks/hook";
-import { decrement, increment, reset } from "./components/counterSlice";
+import { createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
 
-export default function Home() {
-  const counter = useAppSelector((state) => state.counter);
-  const dispstch = useAppDispatch();
-  return (
-    <div >
-      <div className="flex gap-2  justify-center items-center  mt-10">
-        <button
-          className=" bg-red-900 text-white p-1 rounded-lg "
-          onClick={() => dispstch(decrement())}
-        >
-          Minus
-        </button>
-        {counter?.count}
-        <button
-          className=" bg-blue-900 text-white p-1 rounded-lg "
-          onClick={() => dispstch(increment())}
-        >
-          Plus
-        </button>
-        
-        <div>
-        <button
-          className=" bg-orange-700 text-white p-1 rounded-lg "
-          onClick={() => dispstch(reset())}
-        >
-          Reset
-        </button>
-        </div>
-      </div>
-    </div>
-  );
+export interface CounterState {
+  count: number
 }
+
+const initialState: CounterState = {
+  count: 0,
+}
+
+export const counterSlice = createSlice({
+  name: 'counter',
+  initialState,
+  reducers: {
+    increment: (state) => {
+     
+      state.count += 1
+    },
+    decrement: (state) => {
+      state.count -= 1
+    },
+    reset: (state) => {
+      state.count=0
+    },
+  },
+})
+
+// Action creators are generated for each case reducer function
+export const { increment, decrement, reset } = counterSlice.actions
+
+export default counterSlice.reducer
